@@ -13,10 +13,6 @@ DEFAULT_DATABASE = 'bangumi.db'
 def opendb():
     """
     Open TinyDB database
-
-    warning:
-    parameter dbname is only designed for unit test.
-    PASSING AN ARGUMENT VIA dbname is forbidden.
     """
     serialization = SerializationMiddleware()
     serialization.register_serializer(DateSerializer(), 'Date Serializer')

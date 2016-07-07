@@ -13,21 +13,23 @@ class DatabaseTestClass(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         database.DEFAULT_DATABASE = 'test.db'
-        db = tinydb.TinyDB('test.db')
+        db = database.opendb()
         bangumi_dict = [
             {
                 'name': 'test bangumi 2',
-                'translation_group': ['sumisora'],
-                'start_date': (date.today() + timedelta(days=1)).isoformat(),
-                'cached_ep': 0,
+                'translation_team': ['sumisora'],
+                'start_date': date.today() + timedelta(days=1),
+                'next_onair_date': date.today() + timedelta(days=1),
+                'dled_ep': 0,
                 'total_ep': 12,
                 'offset': 0
             },
             {
                 'name': 'test bangumi 3',
-                'translation_group': ['sumisora'],
-                'start_date': (date.today() - timedelta(days=47)).isoformat(),
-                'cached_ep': 7,
+                'translation_team': ['sumisora'],
+                'start_date': date.today() - timedelta(days=49),
+                'next_onair_date': date.today(),
+                'dled_ep': 6,
                 'total_ep': 13,
                 'offset': 0
             }
@@ -41,6 +43,5 @@ class DatabaseTestClass(unittest.TestCase):
 
     def test_unloaded_episode(self):
         unloaded_episodes = database.unloaded_episodes()
-        intended_episodes = [FileMeta('test bangumi 2', 8, 'sumisora')]
-        for intended_episode in intended_episodes:
-            self.assertIn(intended_episode, unloaded_episodes)
+        intended_episodes = [FileMeta('test bangumi 3', 7, ['sumisora'])]
+        self.assertEqual(intended_episodes, unloaded_episodes)

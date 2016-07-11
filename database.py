@@ -24,11 +24,10 @@ def add_bangumis(bangumi_list):
     Add bangumis provided by bangumi_list into database
 
     param:
-    bangumi_list    list of objects of Bangumi class
+    bangumi_list    list of bangumis
     """
     db = opendb()
-    blist = [bangumi.dict() for bangumi in bangumi_list]
-    db.insert(bangumi_list)
+    db.insert_multiple(bangumi_list)
     db.close()
 
 

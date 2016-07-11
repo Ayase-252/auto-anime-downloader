@@ -1,39 +1,18 @@
+"""
+Bangumi module
+"""
+
 from datetime import datetime
 import json
 
 
-class Bangumi:
-
-    def __init__(self, name, start_date, translation_team=[],
-                 downloaded_ep=0, total_ep=99, offset=0):
-        self.name = name
-        self.start_date = start_date
-        self.translation_team = translation_team
-        self.downloaded_ep = downloaded_ep
-        self.total_ep = total_ep
-        self.offset = offset
-
-
-def parse_from_json(json_str):
-    bangumi = json.loads(json_str, encoding='utf-8')
-    new_bangumi = {}
-    new_bangumi['name'] = bangumi['name']
-    new_bangumi['start_date'] = datetime.strptime(
-        bangumi['start_date'], '%Y-%m-%d',).date()
-    if 'translation_team' in bangumi:
-        new_bangumi['translation_team'] = bangumi['translation_team']
-    else:
-        new_bangumi['translation_team'] = []
-    if bangumi['total_ep'] is not None:
-        new_bangumi['total_ep'] = int(bangumi['total_ep'])
-    else:
-        new_bangumi['total_ep'] = 99
-    new_bangumi['downloaded_ep'] = 0
-    new_bangumi['offset'] = 0
-    return new_bangumi
-
-
 def parsed_json_to_dict(parsed):
+    """
+    Convert parsed dict into dict with python built-in type
+
+    param:
+    parsed      parsed dict by json decoder
+    """
     new_bangumi = {}
     new_bangumi['name'] = parsed['name']
     new_bangumi['start_date'] = datetime.strptime(

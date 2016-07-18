@@ -18,7 +18,8 @@ class BangumiTestClass(unittest.TestCase):
             'start_date': date(2011, 4, 14),
             'translation_team': ['sumisora', 'emd'],
             'total_ep': 11,
-            'downloaded_ep': 0,
+            'dled_ep': 0,
+            'next_onair_date': date(2011, 4, 14),
             'offset': 0
         })
 
@@ -33,7 +34,8 @@ class BangumiTestClass(unittest.TestCase):
             'start_date': date(2012, 10, 8),
             'translation_team': ['测试字幕组'],
             'total_ep': 12,
-            'downloaded_ep': 0,
+            'dled_ep': 0,
+            'next_onair_date': date(2012, 10, 8),
             'offset': 0
         })
         f.close()
@@ -49,7 +51,8 @@ class BangumiTestClass(unittest.TestCase):
             'start_date': date(2016, 4, 9),
             'translation_team': [],
             'total_ep': 12,
-            'downloaded_ep': 0,
+            'dled_ep': 0,
+            'next_onair_date': date(2016, 4, 9),
             'offset': 0
         })
         f.close()
@@ -61,21 +64,24 @@ class BangumiTestClass(unittest.TestCase):
             'start_date': date(2011, 4, 14),
             'translation_team': ['sumisora', 'emd'],
             'total_ep': 11,
-            'downloaded_ep': 0,
+            'dled_ep': 0,
+            'next_onair_date': date(2011, 4, 14),
             'offset': 0
         }, {
             'name': 'ふらいんうぃち',
             'start_date': date(2016, 4, 9),
             'translation_team': [],
             'total_ep': 12,
-            'downloaded_ep': 0,
+            'dled_ep': 0,
+            'next_onair_date': date(2016, 4, 9),
             'offset': 0
         }, {
             'name': '少女与战车',
             'start_date': date(2012, 10, 8),
             'translation_team': [],
             'total_ep': 99,
-            'downloaded_ep': 0,
+            'dled_ep': 0,
+            'next_onair_date': date(2012, 10, 8),
             'offset': 0
         }
         ])

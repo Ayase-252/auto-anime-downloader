@@ -8,7 +8,7 @@ import bangumi
 class BangumiTestClass(unittest.TestCase):
 
     def test_parsed_json_to_dict_ascii(self):
-        f = open(r'test-input-ascii.json', 'r', encoding='utf-8')
+        f = open(r'test/test-input-ascii.json', 'r', encoding='utf-8')
         test_str = f.read()
         f.close()
         parsed = json.loads(test_str, encoding='utf-8')
@@ -24,7 +24,7 @@ class BangumiTestClass(unittest.TestCase):
         })
 
     def test_parsed_json_to_dict_ch(self):
-        f = open(r'test-input-ch.json', 'r', encoding='utf-8')
+        f = open(r'test/test-input-ch.json', 'r', encoding='utf-8')
         test_str = f.read()
         f.close()
         parsed = json.loads(test_str, encoding='utf-8')
@@ -41,7 +41,7 @@ class BangumiTestClass(unittest.TestCase):
         f.close()
 
     def test_parsed_json_to_dict_jp(self):
-        f = open(r'test-input-jp.json', 'r', encoding='utf-8')
+        f = open(r'test/test-input-jp.json', 'r', encoding='utf-8')
         test_str = f.read()
         f.close()
         parsed = json.loads(test_str, encoding='utf-8')
@@ -58,7 +58,7 @@ class BangumiTestClass(unittest.TestCase):
         f.close()
 
     def test_read_bangumi_from_file(self):
-        read_list = bangumi.read_bangumi_from_file('test-input.json')
+        read_list = bangumi.read_bangumi_from_file(r'test/test-input.json')
         self.assertEqual(read_list, [{
             'name': 'Ano hi mita hana no namae wo bokutachi wa mada shiranai.',
             'start_date': date(2011, 4, 14),

@@ -97,3 +97,40 @@ def set_downloaded_episode(bangumi_name, episode):
     bangumi_info = db.get(bangumi.name == bangumi_name)
     bangumi_info['dled_ep'] += 1
     db.update(bangumi_info, bangumi.name == bangumi_name)
+
+
+def fetch_available_episodes():
+    """
+    Fetch available episodes at the time when the function is called
+
+    return:
+    list of dict of available episode(s)
+    """
+    db = opendb()
+    animes = db.all()
+    db.close()
+    if len(animes) == 0:
+        print('There is no animes in database')
+        return []
+    avail_episodes = []
+    for anime in animes:
+        print('anime: {0}'.format(anime['name']))
+        start_date = anime['start_date']
+        start_date_datetime = datetime(
+            start_date.year, start_date.month, start_date.day)
+        time_interval = datetime.now() - start_date_datetime
+        time_interval_days = time_interval.total_seconds() \
+            / timedelta(days=1).total_seconds()
+        episode_now = int(ceil(time_interval_days / 7)) + anime['offset']
+        print('days between now and start day:{0}'.format(time_interval_days))
+        print('episode available now:{}'.format(episode_now))
+        print('downloaded:{}\n\n'.format(anime['dled_ep']))
+        if episode_now > anime['dled_ep']:
+            for i in range(anime['dled_ep'] + 1, episode_now + 1):
+                avail_episodes.append({
+                    'name': anime['name'],
+                    #                    'keyword': anime['keyword'],
+                    'translation_team': anime['translation_team'],
+                    'ep': i,
+                })
+    return avail_episodes

@@ -1,5 +1,6 @@
 # cache file
 __pycache__/*
+__pycache__
 
 # temporary file
 temp_*

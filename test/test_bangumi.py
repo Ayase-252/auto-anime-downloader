@@ -15,11 +15,11 @@ class BangumiTestClass(unittest.TestCase):
         pdict = bangumi.parsed_json_to_dict(parsed)
         self.assertEqual(pdict, {
             'name': 'Ano hi mita hana no namae wo bokutachi wa mada shiranai.',
+            'keyword': 'Ano hi mita hana no namae wo bokutachi wa mada shiranai.',
             'start_date': date(2011, 4, 14),
             'translation_team': ['sumisora', 'emd'],
             'total_ep': 11,
             'dled_ep': 0,
-            'next_onair_date': date(2011, 4, 14),
             'offset': 0
         })
 
@@ -31,11 +31,11 @@ class BangumiTestClass(unittest.TestCase):
         pdict = bangumi.parsed_json_to_dict(parsed)
         self.assertEqual(pdict, {
             'name': '少女与战车',
+            'keyword': '少女与战车',
             'start_date': date(2012, 10, 8),
             'translation_team': ['测试字幕组'],
             'total_ep': 12,
             'dled_ep': 0,
-            'next_onair_date': date(2012, 10, 8),
             'offset': 0
         })
         f.close()
@@ -48,11 +48,11 @@ class BangumiTestClass(unittest.TestCase):
         pdict = bangumi.parsed_json_to_dict(parsed)
         self.assertEqual(pdict, {
             'name': 'ふらいんうぃち',
+            'keyword': 'ふらいんうぃち',
             'start_date': date(2016, 4, 9),
             'translation_team': [],
             'total_ep': 12,
             'dled_ep': 0,
-            'next_onair_date': date(2016, 4, 9),
             'offset': 0
         })
         f.close()
@@ -61,27 +61,27 @@ class BangumiTestClass(unittest.TestCase):
         read_list = bangumi.read_bangumi_from_file(r'test/test-input.json')
         self.assertEqual(read_list, [{
             'name': 'Ano hi mita hana no namae wo bokutachi wa mada shiranai.',
+            'keyword': 'Ano hi mita hana no namae wo bokutachi wa mada shiranai.',
             'start_date': date(2011, 4, 14),
             'translation_team': ['sumisora', 'emd'],
             'total_ep': 11,
             'dled_ep': 0,
-            'next_onair_date': date(2011, 4, 14),
             'offset': 0
         }, {
             'name': 'ふらいんうぃち',
+            'keyword': 'ふらいんうぃち',
             'start_date': date(2016, 4, 9),
             'translation_team': [],
             'total_ep': 12,
             'dled_ep': 0,
-            'next_onair_date': date(2016, 4, 9),
             'offset': 0
         }, {
             'name': '少女与战车',
+            'keyword': '少女与战车',
             'start_date': date(2012, 10, 8),
             'translation_team': [],
             'total_ep': 99,
             'dled_ep': 0,
-            'next_onair_date': date(2012, 10, 8),
             'offset': 0
         }
         ])

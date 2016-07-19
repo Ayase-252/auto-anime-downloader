@@ -6,7 +6,6 @@ from tinydb.storages import JSONStorage
 from tinydb_serialization import SerializationMiddleware
 
 from date_serializer import DateSerializer
-from filemeta import FileMeta
 
 DEFAULT_DATABASE = 'bangumi.db'
 
@@ -134,3 +133,16 @@ def fetch_available_episodes():
                     'ep': i,
                 })
     return avail_episodes
+
+
+def update_anime_info(name, new):
+    """
+    Update information of anime with a dict contains new information
+    """
+    db = opendb()
+    anime = tinydb.Query()
+    info = db.get(anime.name == name)
+    for key in new:
+        info[key] = new[key]
+    db.update(info, anime.name == name)
+    db.close()

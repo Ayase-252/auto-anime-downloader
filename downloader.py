@@ -6,16 +6,19 @@ This module defines function to download torrent from Internet
 from urllib import request
 
 
-def download(file_meta, save_path=''):
+def download(url, name, ep, translation_team='', save_path='', **kargs):
     """
-    Download file from url provided by filemeta.
+    Download file from url
 
-    Param:
-    file_meta:    An object of FileMeta class indicating the meta of file
-    save_path:  Path where the file will be saved
+    params:
+    url:                URL of torrent
+    name:               Name of anime
+    ep:                 Episode number
+    translation_team:   Translation team name
+    save_path:          Path where the file will be saved
     """
-    print('Downloading {0} from {1}'.format(file_meta.name, file_meta.url))
-    response = request.urlopen(file_meta.url)
-    f = open(save_path + file_meta.name + '-ep.' + str(file_meta.ep) + '-' +
+    print('Downloading {} {} from {}'.format(name, ep, url))
+    response = request.urlopen(url)
+    f = open(save_path + name + '-ep.' + str(ep) + '-' +
              '.torrent', 'wb')
     f.write(response.read())

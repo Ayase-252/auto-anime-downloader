@@ -29,8 +29,10 @@ def parsed_json_to_dict(parsed):
         new_bangumi['dled_ep'] = int(parsed['dled_ep'])
     else:
         new_bangumi['dled_ep'] = 0
-    new_bangumi['next_onair_date'] = new_bangumi[
-        'start_date'] + timedelta(days=7 * new_bangumi['dled_ep'])
+    if 'keyword' in parsed:
+        new_bangumi['keyword'] = parsed['keyword']
+    else:
+        new_bangumi['keyword'] = new_bangumi['name']
     new_bangumi['offset'] = 0
     return new_bangumi
 

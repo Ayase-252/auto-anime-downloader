@@ -28,12 +28,15 @@ if __name__ == '__main__':
     # Main procedure
     else:
         print('Fetching new episodes infomation')
-        unload = database.unloaded_episodes()
+        unload = database.fetch_available_episodes()
         print('Download start\n')
         for unload_episode in unload:
-            print('Ep.{0} of {1} is processing'.format(unload_episode.ep,
-                                                       unload_episode.name))
-            unload_episode.url = dmhy.get_download_url(unload_episode)
-            downloader.download(unload_episode)
-            database.set_downloaded_episode(unload_episode.name,
-                                            unload_episode.ep)
+            print('Ep.{0} of {1} is processing'.format(unload_episode['ep'],
+                                                       unload_episode['name']))
+            try:
+                unload_episode_url = dmhy.get_download_url(**unload_episode)
+                downloader.download(url=unload_episode_url, **unload_episode)
+                database.set_downloaded_episode(unload_episode['name'],
+                                                unload_episode['ep'])
+            except FileNotFoundError:
+                print("Error: Torrent doesn't exist in the website.")

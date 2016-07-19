@@ -129,7 +129,7 @@ def fetch_available_episodes():
             for i in range(anime['dled_ep'] + 1, episode_now + 1):
                 avail_episodes.append({
                     'name': anime['name'],
-                    #                    'keyword': anime['keyword'],
+                    'keyword': anime['keyword'],
                     'translation_team': anime['translation_team'],
                     'ep': i,
                 })

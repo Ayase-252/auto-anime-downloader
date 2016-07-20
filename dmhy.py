@@ -12,7 +12,13 @@ def get_download_url(name, ep, keyword, translation_team):
     """
     root_url = 'https://share.dmhy.org'
     payload = {'keyword': keyword + ' ' + '{:0>2}'.format(ep)}
-    search = requests.get(root_url + '/topics/list', params=payload)
+    user_agent = {
+        'User-agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML,'
+                      'like Gecko) Chrome/41.0.2228.0 Safari/537.36'
+    }
+    search = requests.get(root_url + '/topics/list',
+                          headers=user_agent,
+                          params=payload)
     soup = bs4.BeautifulSoup(search.content, 'lxml')
     print('search url:{0}'.format(search.url))
     trs = soup.find_all('tr')

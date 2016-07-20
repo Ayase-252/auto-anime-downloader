@@ -10,3 +10,8 @@ test.py
 
 # Scraper
 dmhy.py
+
+# Files for test purpose
+real_static.json
+bangumi.db
+torrents/*

@@ -8,9 +8,6 @@ temp_*
 # test script
 test.py
 
-# Scraper
-dmhy.py
-
 # Files for test purpose
 real_static.json
 bangumi.db

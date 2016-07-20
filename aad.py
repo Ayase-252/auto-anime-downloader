@@ -1,4 +1,5 @@
 import sys
+import json
 
 import bangumi
 import database
@@ -21,11 +22,7 @@ if __name__ == '__main__':
                 action_queue.append((database.add_bangumis, (bangumis,), {}))
                 args = args[2:]
                 continue
-            #   Wrong arguments
-            else:
-                raise RuntimeError('Unexcepted arguments: {0}'.format(args))
-
-            if args[0] == 'update':
+            elif args[0] == 'update':
                 file_path = args[1]
                 f = open(file_path, 'r', encoding='utf-8')
                 parsed = json.loads(f.read(), encoding='utf-8')
@@ -36,6 +33,9 @@ if __name__ == '__main__':
                         bangumi.parsed_json_to_dict(anime['new_info']))
                 args = args[2:]
                 continue
+            #   Wrong arguments
+            else:
+                raise RuntimeError('Unexcepted arguments: {0}'.format(args))
 
         for action in action_queue:
             action[0](*action[1], **action[2])

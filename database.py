@@ -47,7 +47,7 @@ def set_downloaded_episode(bangumi_name, episode):
     db = opendb()
     bangumi = tinydb.Query()
     bangumi_info = db.get(bangumi.name == bangumi_name)
-    bangumi_info['dled_ep'] == episode
+    bangumi_info['dled_ep'] = episode
     db.update(bangumi_info, bangumi.name == bangumi_name)
 
 

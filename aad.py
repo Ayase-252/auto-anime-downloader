@@ -23,6 +23,16 @@ if __name__ == '__main__':
             else:
                 raise RuntimeError('Unexcepted arguments: {0}'.format(args))
 
+            if args[0] == 'update':
+                file_path = args[1]
+                f = open(file_path, 'r', encoding='utf-8')
+                parsed = json.loads(f.read(), encoding='utf-8')
+                f.close()
+                for anime in parsed:
+                    database.update_anime_info(
+                        anime['name'],
+                        bangumi.parsed_json_to_dict(anime['new_info']))
+
         for action in action_queue:
             action[0](*action[1], **action[2])
     # Main procedure

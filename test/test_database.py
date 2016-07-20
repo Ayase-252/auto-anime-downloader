@@ -91,9 +91,9 @@ class UpdateAnimeInfoTests(unittest.TestCase):
         }
         self.db.insert(anime)
         new_info = {
-            'name': 'another',
-            'translation_team': ['kmp'],
-            'dled_ep': 2,
+            'new_name': 'another',
+            'new_translation_team': ['kmp'],
+            'new_dled_ep': 2,
         }
         database.update_anime_info('test bangumi 2', new_info)
         q = tinydb.Query()

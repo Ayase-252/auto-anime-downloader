@@ -30,7 +30,7 @@ if __name__ == '__main__':
                 for anime in parsed:
                     database.update_anime_info(
                         anime['name'],
-                        bangumi.parsed_json_to_dict(anime['new_info']))
+                        bangumi.parsed_json_to_new_dict(anime))
                 args = args[2:]
                 continue
             #   Wrong arguments

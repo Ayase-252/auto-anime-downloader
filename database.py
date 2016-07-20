@@ -91,11 +91,20 @@ def fetch_available_episodes():
 def update_anime_info(name, new):
     """
     Update information of anime with a dict contains new information
+
+    params:
+    name        Name of anime you wants to update
+    new         A dict contains new infomation, the value whose key name starts
+                with new_ will replaces the corresponding item
     """
     db = opendb()
     anime = tinydb.Query()
     info = db.get(anime.name == name)
+    print('\nUpdating {}:'.format(name))
     for key in new:
-        info[key] = new[key]
+        if key.startswith('new_'):
+            new_key = key[4:]
+            info[new_key] = new[key]
+            print('{} is replaced with {}'.format(new_key, new[key]))
     db.update(info, anime.name == name)
     db.close()

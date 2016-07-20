@@ -1,5 +1,7 @@
 # Auto Anime Downloader
 
+[![Build Status](https://travis-ci.org/Ayase-252/auto-anime-downloader.svg?branch=master)](https://travis-ci.org/Ayase-252/auto-anime-downloader)
+
 A tiny python script downloading torrents of anime on air from web automatically.
 
 ## Independences

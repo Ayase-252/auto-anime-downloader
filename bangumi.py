@@ -37,6 +37,28 @@ def parsed_json_to_dict(parsed):
     return new_bangumi
 
 
+def parsed_json_to_new_dict(parsed):
+    """
+    Convert parsed dict into dict with python built-in type used by update
+    function
+
+    params:
+    parsed:     parsed dict by json decode
+    """
+    new_anime = {}
+    new_anime['name'] = parsed['name']
+    for key in parsed:
+        if key.startswith('new_'):
+            if key[4:] in ['translation_team', 'keyword', 'name']:
+                new_anime[key] = parsed[key]
+            elif key[4:] in ['total_ep', 'dled_ep', 'offset']:
+                new_anime[key] = int(parsed[key])
+            elif key[4:] in ['start_date']:
+                new_anime[key] = datetime.strptime(
+                    parsed[key], '%Y-%m-%d').date()
+    return new_anime
+
+
 def read_bangumi_from_file(filepath):
     """
     Read bangumi infomation from file, file should be writen in JSON format

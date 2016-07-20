@@ -85,3 +85,29 @@ class BangumiTestClass(unittest.TestCase):
             'offset': 0
         }
         ])
+
+
+class ParsedJSONToNewDictTests(unittest.TestCase):
+
+    def test_function_1(self):
+        new_dict = {
+            'name': 'test_bangumi',
+            'new_name': 'test bangumi 2',
+            'new_translation_team': ['sumisora', 'emd'],
+            'new_total_ep': '25',
+            'new_dled_ep': '20',
+            'new_start_date': '2016-05-05',
+            'new_keyword': 'test',
+            'new_offset': '2'
+        }
+        converted_dict = bangumi.parsed_json_to_new_dict(new_dict)
+        self.assertEqual({
+            'name': 'test_bangumi',
+            'new_name': 'test bangumi 2',
+            'new_translation_team': ['sumisora', 'emd'],
+            'new_total_ep': 25,
+            'new_dled_ep': 20,
+            'new_start_date': date(2016, 5, 5),
+            'new_keyword': 'test',
+            'new_offset': 2
+        }, converted_dict)

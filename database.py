@@ -36,53 +36,6 @@ def add_bangumis(bangumi_list):
     db.close()
 
 
-def update(bangumi):
-    """
-    Update bangumi information in database
-
-    params:
-    bangumi         object of Bangumi class
-    """
-    db = opendb()
-    q = tinydb.Query()
-    db.update(bangumi.dict(), q.name == bangumi.name)
-    db.close()
-
-
-def unloaded_episodes():
-    """
-    Fetch undownloaded episodes
-
-    return:
-    list of dict of filemeta
-    """
-    db = opendb()
-    bangumi = tinydb.Query()
-    unloaded_bangumi = db.search(bangumi.next_onair_date <= date.today())
-    db.close()
-    unloaded_episodes = []
-    for bangumi in unloaded_bangumi:
-        start_date = bangumi['start_date']
-        start_date_datetime = datetime(
-            start_date.year, start_date.month, start_date.day)
-        now_air_episode = ceil((datetime.now()
-                                - start_date_datetime).total_seconds()
-                               / timedelta(days=1).total_seconds() / 7)
-        print('Bangumi info: {0}'.format(bangumi['name']))
-        print('Time interval to next on air day: {0}'.format(
-            (datetime.now() - start_date_datetime).total_seconds()))
-        print('Calculated days to next on air day: {0}'.format((datetime.now() - start_date_datetime
-                                                                ).total_seconds() / timedelta(days=1).total_seconds()))
-        print('Available episode:{0}'.format(now_air_episode))
-        for i in range(bangumi['dled_ep'] + 1, int(now_air_episode) + 1):
-            unloaded_episodes.append(FileMeta(name=bangumi['name'],
-                                              ep=i,
-                                              translation_team=bangumi[
-                                                  'translation_team'],
-                                              url=''))
-    return unloaded_episodes
-
-
 def set_downloaded_episode(bangumi_name, episode):
     """
     Set downloaded episode record of sepcified bangumi

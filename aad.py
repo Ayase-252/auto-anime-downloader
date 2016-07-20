@@ -4,6 +4,7 @@ import bangumi
 import database
 import dmhy
 import downloader
+import configure
 
 if __name__ == '__main__':
 
@@ -19,6 +20,7 @@ if __name__ == '__main__':
                 bangumis = bangumi.read_bangumi_from_file(file_path)
                 action_queue.append((database.add_bangumis, (bangumis,), {}))
                 args = args[2:]
+                continue
             #   Wrong arguments
             else:
                 raise RuntimeError('Unexcepted arguments: {0}'.format(args))
@@ -32,6 +34,8 @@ if __name__ == '__main__':
                     database.update_anime_info(
                         anime['name'],
                         bangumi.parsed_json_to_dict(anime['new_info']))
+                args = args[2:]
+                continue
 
         for action in action_queue:
             action[0](*action[1], **action[2])
@@ -45,7 +49,9 @@ if __name__ == '__main__':
                                                        unload_episode['name']))
             try:
                 unload_episode_url = dmhy.get_download_url(**unload_episode)
-                downloader.download(url=unload_episode_url, **unload_episode)
+                downloader.download(url=unload_episode_url,
+                                    save_path=configure.TORRENT_SAVE_PATH,
+                                    **unload_episode)
                 database.set_downloaded_episode(unload_episode['name'],
                                                 unload_episode['ep'])
             except FileNotFoundError:

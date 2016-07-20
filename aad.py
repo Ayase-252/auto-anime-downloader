@@ -43,7 +43,10 @@ if __name__ == '__main__':
     else:
         print('Fetching new episodes infomation')
         unload = database.fetch_available_episodes()
-        print('Download start\n')
+        if len(unload) == 0:
+            print('No available anime at present.')
+        else:
+            print('Download start\n')
         for unload_episode in unload:
             print('Ep.{0} of {1} is processing'.format(unload_episode['ep'],
                                                        unload_episode['name']))

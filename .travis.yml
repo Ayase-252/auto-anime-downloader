@@ -1,0 +1,17 @@
+language: python
+python:
+  - "3.2"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "nightly"
+
+install:
+  - "pip install tinydb"
+  - "pip install tinydb-serialization"
+  - "pip install hanziconv"
+  - "pip install requests"
+  - "pip install bs4"
+
+script:
+  python -m unittest

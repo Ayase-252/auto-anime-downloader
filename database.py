@@ -29,7 +29,7 @@ def add_bangumis(bangumi_list):
     db = opendb()
     db.insert_multiple(bangumi_list)
     print(
-        '{0} bangumi/s has been insert into database.'.format(
+        '{0} bangumi/s has been inserted into database.'.format(
             len(bangumi_list)
         )
     )

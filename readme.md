@@ -4,7 +4,7 @@
 
 A tiny python script downloading torrents of anime on air from web automatically.
 
-## Independences
+## Dependences
 
   * tinydb
   * tinydb-serialization

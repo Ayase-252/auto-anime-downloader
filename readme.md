@@ -6,10 +6,12 @@ A tiny python script downloading torrents of anime on air from web automatically
 
 ## Dependences
 
+  * lxml
   * tinydb
   * tinydb-serialization
   * bs4
   * requests
+  * hanziconv
 
 ## License
   The MIT License (MIT)

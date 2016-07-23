@@ -18,7 +18,8 @@ def get_download_url(name, ep, keyword, translation_team):
     }
     search = requests.get(root_url + '/topics/list',
                           headers=user_agent,
-                          params=payload)
+                          params=payload,
+                          timeout=5)
     soup = bs4.BeautifulSoup(search.content, 'lxml')
     print('search url:{0}'.format(search.url))
     trs = soup.find_all('tr')
@@ -33,15 +34,22 @@ def get_download_url(name, ep, keyword, translation_team):
         entry_desc = ''
         for string in a.strings:
             entry_desc += string
-        print('Searching: {0}'.format(HanziConv.toSimplified(entry_desc)))
-        if name in HanziConv.toSimplified(entry_desc):
+        # Eliminating spaces
+        entry_desc = HanziConv.toSimplified(entry_desc.strip())
+        print('Searching: {0}'.format(entry_desc))
+        unified_name = name.lower()
+        unified_entry_desc = entry_desc.lower()
+        print('Unified name:{}'.format(unified_name))
+        if unified_name in unified_entry_desc:
             # Translation team check
             if (translation_team != []
-                    and not any(trans_t in entry_desc for trans_t in translation_team)):
+                    and not any(trans_t.lower() in unified_entry_desc for trans_t in translation_team)):
                 continue
             download_page_url = a['href']
             print('download_page link:{0}'.format(download_page_url))
-            download_page = requests.get(root_url + download_page_url)
+            download_page = requests.get(root_url + download_page_url,
+                                         headers=user_agent,
+                                         timeout=5)
             soup1 = bs4.BeautifulSoup(download_page.content, 'lxml')
             url_list = soup1.find(id='tabs-1')
             p = url_list.find('p')

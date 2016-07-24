@@ -39,24 +39,28 @@ def request_get_content(url, retry=0, retry_interval=5, params=[]):
     """
     try_time = retry + 1
     r = None
+    print('Retriving data from', url)
     while r is None or r.status_code != 200:
         try:
-            r = _make_get_request(url)
+            r = _make_get_request(url, params)
         except Exception as e:
             print('\n\nException raised\n', e)
-        try_time -= 1
+            print('Retry will starts in {} second'.format(retry_interval))
+            try_time -= 1
+            time.sleep(retry_interval)
+            continue
         if r.status_code != 200:
             print('Error: Request returns response with status code',
                   r.status_code)
-        if try_time == 0:
-            break
-        print('Retry will starts in {} second'.format(retry_interval))
-        time.sleep(retry_interval)
+            print('Retry will starts in {} second'.format(retry_interval))
+            try_time -= 1
+            time.sleep(retry_interval)
+            continue
     if r is None or r.status_code != 200:
         raise RuntimeError(
             'Reach maximun retry time in requesting url {}'.format(url))
     else:
-        return r
+        return r.content
 
 
 def _make_get_request(url, params=[]):
@@ -77,4 +81,4 @@ def _make_get_request(url, params=[]):
 
     default_time_out = 10
     return requests.get(url, params=params,
-                        headers=default_headers, timeout=default_headers)
+                        headers=default_headers, timeout=default_time_out)

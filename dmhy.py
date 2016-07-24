@@ -5,6 +5,8 @@ import bs4
 import requests
 from hanziconv import HanziConv
 
+import net
+
 
 def get_download_url(name, ep, keyword, translation_team):
     """
@@ -16,17 +18,18 @@ def get_download_url(name, ep, keyword, translation_team):
         'User-agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML,'
                       'like Gecko) Chrome/41.0.2228.0 Safari/537.36'
     }
-    search = requests.get(root_url + '/topics/list',
-                          headers=user_agent,
-                          params=payload,
-                          timeout=5)
-    soup = bs4.BeautifulSoup(search.content, 'lxml')
-    print('search url:{0}'.format(search.url))
+    print('DMHY scraper is searching for {} of {}'.format(ep, name))
+    content = net.request_get_content(root_url + '/topics/list',
+                                      retry=5,
+                                      params=payload)
+    soup = bs4.BeautifulSoup(content, 'lxml')
     trs = soup.find_all('tr')
     if len(trs) == 0:
         raise FileNotFoundError
     found_flag = False
     download_url = ''
+    unified_name = name.lower()
+    print('Unified name:{}'.format(unified_name))
     # Skip the table header
     for tr in trs[1:]:
         a = tr.select('td.title > a')[0]
@@ -36,10 +39,12 @@ def get_download_url(name, ep, keyword, translation_team):
             entry_desc += string
         # Eliminating spaces
         entry_desc = HanziConv.toSimplified(entry_desc.strip())
-        print('Searching: {0}'.format(entry_desc))
-        unified_name = name.lower()
+        try:
+            print('Searching: {0}'.format(entry_desc))
+        except:
+            print('Experiencing encoding problem, but search is still going on.')
+            print('Searching:', entry_desc.encode('utf-8'))
         unified_entry_desc = entry_desc.lower()
-        print('Unified name:{}'.format(unified_name))
         if unified_name in unified_entry_desc:
             # Translation team check
             if (translation_team != []
@@ -47,10 +52,10 @@ def get_download_url(name, ep, keyword, translation_team):
                 continue
             download_page_url = a['href']
             print('download_page link:{0}'.format(download_page_url))
-            download_page = requests.get(root_url + download_page_url,
-                                         headers=user_agent,
-                                         timeout=5)
-            soup1 = bs4.BeautifulSoup(download_page.content, 'lxml')
+            download_page_content = net.request_get_content(
+                root_url + download_page_url,
+                retry=5)
+            soup1 = bs4.BeautifulSoup(download_page_content, 'lxml')
             url_list = soup1.find(id='tabs-1')
             p = url_list.find('p')
             download_url = p.find('a')['href']

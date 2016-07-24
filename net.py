@@ -28,9 +28,9 @@ def download(url, file_name, save_path=''):
     f.close()
 
 
-def request_get_content(url, retry=0, retry_interval=5):
+def request_get_content(url, retry=0, retry_interval=5, params=[]):
     """
-    Get content of response subject to request to url
+    Get content of response subject to GET request to url
 
     params:
     url             Resource url

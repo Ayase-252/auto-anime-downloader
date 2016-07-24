@@ -13,7 +13,7 @@ def download(url, name, ep, translation_team='', save_path='', **kargs):
     Download file from url
 
     params:
-    url:                URL of torrent
+    url:                url of torrent
     name:               Name of anime
     ep:                 Episode number
     translation_team:   Translation team name

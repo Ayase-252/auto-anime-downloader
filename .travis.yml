@@ -12,6 +12,6 @@ install:
   - "pip install hanziconv"
   - "pip install requests"
   - "pip install bs4"
-
+  - "pip install requests-mock"
 script:
   python -m unittest

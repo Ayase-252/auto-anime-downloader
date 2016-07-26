@@ -40,7 +40,7 @@ def request_get_content(url, retry=0, retry_interval=5, params=[]):
     try_time = retry + 1
     r = None
     print('Retriving data from', url)
-    while r is None or r.status_code != 200:
+    while r is None or r.status_code != 200 and try_time != 0:
         try:
             r = _make_get_request(url, params)
         except Exception as e:

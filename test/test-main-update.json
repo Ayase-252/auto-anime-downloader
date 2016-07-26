@@ -1,0 +1,10 @@
+[{
+  "name": "test_bangumi_1",
+  "new_name": "new name",
+  "new_keyword": "new",
+  "new_start_date": "2016-01-01",
+  "new_translation_team": ["sumisora"],
+  "new_dled_ep": "1",
+  "new_total_ep": "12",
+  "new_offset": "1"
+}]

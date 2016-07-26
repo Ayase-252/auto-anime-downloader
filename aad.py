@@ -1,4 +1,5 @@
 import sys
+import io
 import json
 
 import bangumi
@@ -8,7 +9,6 @@ import downloader
 import configure
 
 if __name__ == '__main__':
-
     if len(sys.argv) != 1:
         args = sys.argv[1:]
         action_queue = []
@@ -41,7 +41,7 @@ if __name__ == '__main__':
             action[0](*action[1], **action[2])
     # Main procedure
     else:
-        print('Fetching new episodes infomation')
+        print('Fetching new episode infomation')
         unload = database.fetch_available_episodes()
         if len(unload) == 0:
             print('No available anime at present.')

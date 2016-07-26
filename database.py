@@ -121,3 +121,4 @@ def remove_anime(name):
     anime = tinydb.Query()
     db.remove(anime.name == name)
     db.close()
+    print('{} is removed from database'.format(name))

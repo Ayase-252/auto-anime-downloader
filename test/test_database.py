@@ -130,3 +130,34 @@ class UpdateAnimeInfoTests(unittest.TestCase):
             'offset': 0
         }, new)
         self.db.close()
+
+
+class RemoveAnimeTests(unittest.TestCase):
+    """
+    Test cases to test remove_anime
+    """
+
+    def setUp(self):
+        """
+        Configure database for test purposes. Remind to close db after data
+        insertion.
+        """
+        database.DEFAULT_DATABASE = 'test.db'
+        self.db = database.opendb()
+
+    def tearDown(self):
+        self.db.close()
+        os.remove('test.db')
+
+    def test_function_1(self):
+        anime = {
+            'name': 'test bangumi 2',
+            'translation_team': ['sumisora'],
+            'start_date': date.today() + timedelta(days=1),
+            'dled_ep': 0,
+            'total_ep': 12,
+            'offset': 0
+        }
+        self.db.insert(anime)
+        database.remove_anime('test bangumi 2')
+        self.assertEqual(0, len(self.db.all()))

@@ -93,7 +93,7 @@ def update_anime_info(name, new):
     Update information of anime with a dict contains new information
 
     params:
-    name        Name of anime you wants to update
+    name        Name of anime you want to update
     new         A dict contains new infomation, the value whose key name starts
                 with new_ will replaces the corresponding item
     """
@@ -108,3 +108,17 @@ def update_anime_info(name, new):
             print('{} is replaced with {}'.format(new_key, new[key]))
     db.update(info, anime.name == name)
     db.close()
+
+
+def remove_anime(name):
+    """
+    Remove anime from database
+
+    params:
+    name    Name of anime you want to remove
+    """
+    db = opendb()
+    anime = tinydb.Query()
+    db.remove(anime.name == name)
+    db.close()
+    print('{} is removed from database'.format(name))

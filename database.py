@@ -122,3 +122,22 @@ def remove_anime(name):
     db.remove(anime.name == name)
     db.close()
     print('{} is removed from database'.format(name))
+
+
+def remove_finished_anime():
+    """
+    Remmove finished anime in the database
+    """
+    db = opendb()
+    anime_group = db.all()
+    for anime in anime_group:
+        if anime['total_ep'] == anime['dled_ep']:
+            remove_anime(anime['name'])
+
+
+def get_anime_by_name(name):
+    pass
+
+
+def get_all_anime():
+    pass

@@ -8,7 +8,8 @@ import main
 def dispatcher(*args):
     lookup = {
         'add': main.add,
-        'update': main.update
+        'update': main.update,
+        'check': main.check_database,
     }
     if len(args) == 0:
         main.main()

@@ -50,6 +50,8 @@ def set_downloaded_episode(bangumi_name, episode):
     bangumi_info['dled_ep'] = episode
     db.update(bangumi_info, bangumi.name == bangumi_name)
 
+# IDEA: Change name to get_avail_episodes
+
 
 def fetch_available_episodes():
     """
@@ -126,18 +128,38 @@ def remove_anime(name):
 
 def remove_finished_anime():
     """
-    Remmove finished anime in the database
+    Remove finished anime in the database
     """
     db = opendb()
     anime_group = db.all()
+    count = 0
     for anime in anime_group:
         if anime['total_ep'] == anime['dled_ep']:
             remove_anime(anime['name'])
+            count += 1
+    print('{} anime is(are) removed form database'.format(count))
+    db.close()
 
 
 def get_anime_by_name(name):
-    pass
+    """
+    param:
+    name        Name of anime
+    return:
+    dict contains all information
+    """
+    db = opendb()
+    anime = tinydb.Query()
+    r = db.get(anime.name == name)
+    db.close()
+    return r
 
 
 def get_all_anime():
-    pass
+    """
+    return:
+    dict contains all anime in the database
+    """
+    db = opendb()
+    anime_group = db.all()
+    return anime_group

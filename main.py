@@ -72,3 +72,16 @@ def add(file_path):
     """
     animes = bangumi.read_bangumi_from_file(file_path)
     database.add_bangumis(animes)
+
+
+def check_database():
+    """
+    Check constraints in database
+
+    usage:
+    py aad.py check
+    """
+    print('Program is checking data in the database. Any data violating '
+          'constraints will be removed from database.')
+    database.remove_finished_anime()
+    print('Data checking is completed.')

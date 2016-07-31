@@ -50,6 +50,8 @@ def set_downloaded_episode(bangumi_name, episode):
     bangumi_info['dled_ep'] = episode
     db.update(bangumi_info, bangumi.name == bangumi_name)
 
+# IDEA: Change name to get_avail_episodes
+
 
 def fetch_available_episodes():
     """
@@ -93,7 +95,7 @@ def update_anime_info(name, new):
     Update information of anime with a dict contains new information
 
     params:
-    name        Name of anime you wants to update
+    name        Name of anime you want to update
     new         A dict contains new infomation, the value whose key name starts
                 with new_ will replaces the corresponding item
     """
@@ -108,3 +110,56 @@ def update_anime_info(name, new):
             print('{} is replaced with {}'.format(new_key, new[key]))
     db.update(info, anime.name == name)
     db.close()
+
+
+def remove_anime(name):
+    """
+    Remove anime from database
+
+    params:
+    name    Name of anime you want to remove
+    """
+    db = opendb()
+    anime = tinydb.Query()
+    db.remove(anime.name == name)
+    db.close()
+    print('{} is removed from database'.format(name))
+
+
+def remove_finished_anime():
+    """
+    Remove finished anime in the database
+    """
+    db = opendb()
+    anime_group = db.all()
+    count = 0
+    for anime in anime_group:
+        if anime['total_ep'] == anime['dled_ep']:
+            remove_anime(anime['name'])
+            count += 1
+    print('{} anime is(are) removed form database'.format(count))
+    db.close()
+
+
+def get_anime_by_name(name):
+    """
+    param:
+    name        Name of anime
+    return:
+    dict contains all information
+    """
+    db = opendb()
+    anime = tinydb.Query()
+    r = db.get(anime.name == name)
+    db.close()
+    return r
+
+
+def get_all_anime():
+    """
+    return:
+    dict contains all anime in the database
+    """
+    db = opendb()
+    anime_group = db.all()
+    return anime_group

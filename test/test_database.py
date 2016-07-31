@@ -7,10 +7,7 @@ import tinydb
 import database
 
 
-class FetchAvailableEpisodesTests(unittest.TestCase):
-    """
-    Test class to test fetch_available_episodes
-    """
+class DatabaseTests(unittest.TestCase):
 
     def setUp(self):
         """
@@ -21,9 +18,12 @@ class FetchAvailableEpisodesTests(unittest.TestCase):
         self.db = database.opendb()
 
     def tearDown(self):
-        os.remove('test.db')
+        try:
+            self.db.close()
+        finally:
+            os.remove('test.db')
 
-    def test_function_1(self):
+    def test_fetch_available_episodes_normal_cond(self):
         """
         Test function in situation where only one is available
         """
@@ -60,7 +60,7 @@ class FetchAvailableEpisodesTests(unittest.TestCase):
             'ep': 8
         }], avail_eps)
 
-    def test_function_with_offset(self):
+    def test_fetch_available_episodes_offset_cond(self):
         """
         Test function if an offset anime is presented
         """
@@ -83,24 +83,7 @@ class FetchAvailableEpisodesTests(unittest.TestCase):
             'ep': 7
         }], avail_eps)
 
-
-class UpdateAnimeInfoTests(unittest.TestCase):
-    """
-    Test cases to test update_anime_info
-    """
-
-    def setUp(self):
-        """
-        Configure database for test purposes. Remind to close db after data
-        insertion.
-        """
-        database.DEFAULT_DATABASE = 'test.db'
-        self.db = database.opendb()
-
-    def tearDown(self):
-        os.remove('test.db')
-
-    def test_function_1(self):
+    def test_update_anime_info_normal_cond(self):
         """
         Test function under situation with one entry in database
         """
@@ -121,6 +104,7 @@ class UpdateAnimeInfoTests(unittest.TestCase):
         database.update_anime_info('test bangumi 2', new_info)
         q = tinydb.Query()
         new = self.db.get(q.name == 'another')
+        self.db.close()
         self.assertEqual({
             'name': 'another',
             'translation_team': ['kmp'],
@@ -129,4 +113,85 @@ class UpdateAnimeInfoTests(unittest.TestCase):
             'total_ep': 12,
             'offset': 0
         }, new)
+
+    def test_remove_anime_normal_cond(self):
+        anime = {
+            'name': 'test bangumi 2',
+            'translation_team': ['sumisora'],
+            'start_date': date.today() + timedelta(days=1),
+            'dled_ep': 0,
+            'total_ep': 12,
+            'offset': 0
+        }
+        self.db.insert(anime)
+        database.remove_anime('test bangumi 2')
+        self.assertEqual(0, len(self.db.all()))
         self.db.close()
+
+    def test_remove_finished_anime(self):
+        anime_group = [{
+            'name': 'test bangumi 2',
+            'translation_team': ['sumisora'],
+            'start_date': date.today() + timedelta(days=1),
+            'dled_ep': 12,
+            'total_ep': 12,
+            'offset': 0
+        }, {
+            'name': 'test bangumi 3',
+            'translation_team': ['sumisora'],
+            'start_date': date.today() + timedelta(days=1),
+            'dled_ep': 11,
+            'total_ep': 12,
+            'offset': 0
+        }]
+        self.db.insert_multiple(anime_group)
+        database.remove_finished_anime()
+        self.assertEqual(1, len(self.db.all()))
+        self.db.close()
+
+    def test_get_anime_by_name(self):
+        anime_group = [{
+            'name': 'test bangumi 2',
+            'translation_team': ['sumisora'],
+            'start_date': date.today() + timedelta(days=1),
+            'dled_ep': 12,
+            'total_ep': 12,
+            'offset': 0
+        }, {
+            'name': 'test bangumi 3',
+            'translation_team': ['sumisora'],
+            'start_date': date.today() + timedelta(days=1),
+            'dled_ep': 11,
+            'total_ep': 12,
+            'offset': 0
+        }]
+        self.db.insert_multiple(anime_group)
+        r = database.get_anime_by_name('test bangumi 2')
+        self.assertEqual({
+            'name': 'test bangumi 2',
+            'translation_team': ['sumisora'],
+            'start_date': date.today() + timedelta(days=1),
+            'dled_ep': 12,
+            'total_ep': 12,
+            'offset': 0
+        }, r)
+
+    def test_get_all_anime(self):
+        anime_group = [{
+            'name': 'test bangumi 2',
+            'translation_team': ['sumisora'],
+            'start_date': date.today() + timedelta(days=1),
+            'dled_ep': 12,
+            'total_ep': 12,
+            'offset': 0
+        }, {
+            'name': 'test bangumi 3',
+            'translation_team': ['sumisora'],
+            'start_date': date.today() + timedelta(days=1),
+            'dled_ep': 11,
+            'total_ep': 12,
+            'offset': 0
+        }]
+        self.db.insert_multiple(anime_group)
+        r = database.get_all_anime()
+        self.assertEqual(2, len(r))

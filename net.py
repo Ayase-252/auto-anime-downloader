@@ -28,23 +28,23 @@ def download(url, file_name, save_path=''):
     f.close()
 
 
-def request_get_content(url, retry=0, retry_interval=5, params=[]):
+def request_get_content(url, retry=1, retry_interval=5, params=[]):
     """
     Get content of response subject to GET request to url
 
     params:
     url             Resource url
-    retry           Max retry time
+    retry           Max retry attempts including initial attempt
     retry_interval  Time interval between retries
     """
-    try_time = retry + 1
+    try_time = retry
     r = None
     print('Retriving data from', url)
     while r is None or r.status_code != 200 and try_time != 0:
         try:
             r = _make_get_request(url, params)
         except Exception as e:
-            print('\n\nException raised\n', e)
+            print('\n\nException raised while connecting\n', e)
             print('Retry will starts in {} second'.format(retry_interval))
             try_time -= 1
             time.sleep(retry_interval)

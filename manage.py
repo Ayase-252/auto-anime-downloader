@@ -4,9 +4,12 @@ Management System Module
 This module provides user-friendly method to manage database via CLI.
 """
 
-from manage_plugins import Add
+from manage_plugins import Add, Change
 
-_registed_plugins = {'add': Add}
+_registed_plugins = {
+    'add': Add,
+    'change': Change
+}
 
 
 def entry(*args):

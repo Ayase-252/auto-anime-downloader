@@ -61,7 +61,6 @@ class Change(ManagePluginBase):
         change_list = [anime[choice] for choice in choices]
         new_change_list = []
         for entry in change_list:
-            print(entry)
             new_entry = {'name': entry['name']}
             for key, value in entry.items():
                 new_entry['new_' + key] = value

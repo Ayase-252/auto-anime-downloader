@@ -75,3 +75,19 @@ def read_bangumi_from_file(filepath):
         new_bangumi = parsed_json_to_dict(bangumi)
         bangumi_list.append(new_bangumi)
     return bangumi_list
+
+
+def get_default_dict():
+    """
+    Return a dict with default value
+    """
+    default = {
+        'name': '',
+        'keyword': '',
+        'translation_team': [],
+        'start_date': '',
+        'total_ep': '',
+        'dled_ep': '0',
+        'offset': '0',
+    }
+    return default

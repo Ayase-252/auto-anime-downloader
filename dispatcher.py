@@ -3,6 +3,7 @@ Command dispatcher module
 """
 
 import main
+import manage
 
 
 def dispatcher(*args):
@@ -10,6 +11,7 @@ def dispatcher(*args):
         'add': main.add,
         'update': main.update,
         'check': main.check_database,
+        'manage': manage.entry,
     }
     if len(args) == 0:
         main.main()

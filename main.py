@@ -7,9 +7,9 @@ import json
 
 import database
 import bangumi
-import dmhy
 import downloader
 import configure
+import scraper
 
 
 def main():
@@ -19,6 +19,8 @@ def main():
     usage:
     py aad.py
     """
+    print('Importing scrapers')
+    scrapers = scraper.import_scrapers()
     print('Caculating available episodes')
     avail_episode = database.fetch_available_episodes()
     if len(avail_episode) == 0:
@@ -30,14 +32,19 @@ def main():
     print('Download starts:')
     for ep in avail_episode:
         print('Ep.{} of {} is processing'.format(ep['ep'], ep['name']))
-        try:
-            url = dmhy.get_download_url(**ep)
-            downloader.download(url=url,
-                                save_path=configure.TORRENT_SAVE_PATH,
-                                **ep)
-            database.set_downloaded_episode(ep['name'], ep['ep'])
-        except FileNotFoundError:
-            print("Error: Torrent doesn't exist in the website")
+        for scraper in scraper:
+            try:
+                url = dmhy.get_download_url(**ep)
+                downloader.download(url=url,
+                                    save_path=configure.TORRENT_SAVE_PATH,
+                                    **ep)
+                database.set_downloaded_episode(ep['name'], ep['ep'])
+                break
+            except FileNotFoundError:
+                print('Scraper cannot find the file')
+            # If last scraper is used
+            if scraper is scrapers[-1]:
+                print('File cannot be found in all scraper. Try next time.')
 
 
 def update(file_path):

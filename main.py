@@ -32,9 +32,9 @@ def main():
     print('Download starts:')
     for ep in avail_episode:
         print('Ep.{} of {} is processing'.format(ep['ep'], ep['name']))
-        for scraper in scraper:
+        for __scraper in scrapers:
             try:
-                url = dmhy.get_download_url(**ep)
+                url = __scraper.get_download_url(**ep)
                 downloader.download(url=url,
                                     save_path=configure.TORRENT_SAVE_PATH,
                                     **ep)
@@ -43,7 +43,7 @@ def main():
             except FileNotFoundError:
                 print('Scraper cannot find the file')
             # If last scraper is used
-            if scraper is scrapers[-1]:
+            if __scraper is scrapers[-1]:
                 print('File cannot be found in all scraper. Try next time.')
 
 

@@ -50,5 +50,7 @@ class MainTests(unittest.TestCase):
             'dled_ep': 0,
             'keyword': 'Ano hi mita hana no namae wo bokutachi wa '
                        'mada shiranai.',
-            'offset': 0
+            'offset': 0,
+            'folder': 'Ano hi mita hana no namae wo bokutachi wa '
+                       'mada shiranai.'
         }, r)

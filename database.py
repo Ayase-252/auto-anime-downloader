@@ -86,6 +86,7 @@ def fetch_available_episodes():
                     'keyword': anime['keyword'],
                     'translation_team': anime['translation_team'],
                     'ep': i,
+                    'folder': anime['folder']
                 })
     return avail_episodes
 

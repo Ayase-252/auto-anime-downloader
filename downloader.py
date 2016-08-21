@@ -33,3 +33,4 @@ def download(url, name, ep, translation_team='', save_path='', **kargs):
     except Exception as ex:
         print(
             'Download is ternimated due to following exception:\n{}'.format(ex))
+        raise ex    # Transmit exception to upper layer

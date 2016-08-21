@@ -1,0 +1,33 @@
+[{
+  "new_start_date": "2016-07-05",
+  "new_keyword": "稻妻|與閃",
+  "new_dled_ep": 7,
+  "new_offset": 0,
+  "new_total_ep": 12,
+  "new_translation_team": [
+    "极影"
+  ],
+  "new_name": "天真与闪电",
+  "new_folder": "hello",
+  "name": "天真与闪电"
+}, {
+  "new_start_date": "2016-04-04",
+  "new_keyword": "從零",
+  "new_dled_ep": 20,
+  "new_offset": 0,
+  "new_total_ep": 25,
+  "new_translation_team": [],
+  "new_name": "Re:从零开始的异世界生活",
+  "new_folder": "hello",
+  "name": "Re:从零开始的异世界生活"
+}, {
+  "new_start_date": "2016-07-10",
+  "new_keyword": "时间旅行少女",
+  "new_dled_ep": 7,
+  "new_offset": 0,
+  "new_total_ep": 12,
+  "new_translation_team": [],
+  "new_name": "时间旅行少女",
+  "new_folder": "hello",
+  "name": "时间旅行少女"
+}]

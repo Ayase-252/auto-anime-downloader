@@ -74,8 +74,9 @@ class Change(ManagePluginBase):
             new_change_list.append(new_entry)
         generate_file = open('change_anime_'
                              + datetime.now().strftime('%Y-%m-%d-%H%M%S')
-                             + '.json', 'w')
-        json.dump(new_change_list, generate_file,
-                  indent=4, separators=(',', ':'), ensure_ascii=False)
+                             + '.json', 'wb')
+        json_str = json.dumps(new_change_list, generate_file,
+                              indent=4, separators=(',', ':'), ensure_ascii=False).encode('utf-8')
+        generate_file.write(json_str)
         generate_file.close()
         print('File has been generated.')

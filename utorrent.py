@@ -79,8 +79,6 @@ def _make_request(*, headers={}, params={}, files={}, path='/gui/', method='GET'
     return:
     Response of request
     """
-    # TODO: Remove the temperary authentication information
-    # REVIEW: ABOVE
     username = configure.WEBAPI_USERNAME
     password = configure.WEBAPI_PASSWORD
     port = configure.WEBAPI_PORT

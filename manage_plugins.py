@@ -56,9 +56,12 @@ class Change(ManagePluginBase):
             print('')
         user_input = input(
             'Input numbers of anime you want to change(Seperate by space): ')
-        choices = user_input.split(' ')
-        choices = [int(i) for i in choices]
-        change_list = [anime[choice] for choice in choices]
+        if user_input == 'all':
+            change_list = anime
+        else:
+            choices = user_input.split(' ')
+            choices = [int(i) for i in choices]
+            change_list = [anime[choice] for choice in choices]
         new_change_list = []
         for entry in change_list:
             new_entry = {'name': entry['name']}
@@ -66,11 +69,14 @@ class Change(ManagePluginBase):
                 new_entry['new_' + key] = value
             new_entry['new_start_date'] = new_entry[
                 'new_start_date'].strftime('%Y-%m-%d')
+            if 'folder' not in entry:
+                new_entry['new_folder'] = ''
             new_change_list.append(new_entry)
         generate_file = open('change_anime_'
                              + datetime.now().strftime('%Y-%m-%d-%H%M%S')
-                             + '.json', 'w')
-        json.dump(new_change_list, generate_file,
-                  indent=4, separators=(',', ':'), ensure_ascii=False)
+                             + '.json', 'wb')
+        json_str = json.dumps(new_change_list, generate_file,
+                              indent=4, separators=(',', ':'), ensure_ascii=False).encode('utf-8')
+        generate_file.write(json_str)
         generate_file.close()
         print('File has been generated.')

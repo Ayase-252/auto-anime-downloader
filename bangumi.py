@@ -33,7 +33,9 @@ def parsed_json_to_dict(parsed):
         new_bangumi['keyword'] = parsed['keyword']
     else:
         new_bangumi['keyword'] = new_bangumi['name']
-    new_bangumi['offset'] = 0
+    new_bangumi['folder'] = parsed['folder'] if 'folder' in parsed and parsed[
+        'folder'] is not '' else new_bangumi['name']
+    new_bangumi['offset'] = parsed['offset'] if 'offset' in parsed else 0
     return new_bangumi
 
 
@@ -49,7 +51,7 @@ def parsed_json_to_new_dict(parsed):
     new_anime['name'] = parsed['name']
     for key in parsed:
         if key.startswith('new_'):
-            if key[4:] in ['translation_team', 'keyword', 'name']:
+            if key[4:] in ['translation_team', 'keyword', 'name', 'folder']:
                 new_anime[key] = parsed[key]
             elif key[4:] in ['total_ep', 'dled_ep', 'offset']:
                 new_anime[key] = int(parsed[key])
@@ -89,5 +91,6 @@ def get_default_dict():
         'total_ep': '',
         'dled_ep': '0',
         'offset': '0',
+        'folder': '',
     }
     return default

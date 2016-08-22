@@ -10,6 +10,8 @@ import bangumi
 import downloader
 import configure
 import scraper
+if configure.ENABLE_AUTO_DOWNLOAD:
+    import utorrent
 
 
 def main():
@@ -35,9 +37,16 @@ def main():
         for __scraper in scrapers:
             try:
                 url = __scraper.get_download_url(**ep)
-                downloader.download(url=url,
-                                    save_path=configure.TORRENT_SAVE_PATH,
-                                    **ep)
+                path = downloader.download(url=url,
+                                           save_path=configure.TORRENT_SAVE_PATH,
+                                           **ep)
+                if configure.ENABLE_AUTO_DOWNLOAD:
+                    if not utorrent.is_token_initialized():
+                        print('Refreshing token')
+                        utorrent.refresh_token()
+                    print('Importing torrent into utorrent.')
+                    utorrent.add_torrent(path, ep['folder'])
+                    print('Import completed successfully.')
                 database.set_downloaded_episode(ep['name'], ep['ep'])
                 break
             except FileNotFoundError:

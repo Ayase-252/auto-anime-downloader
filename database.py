@@ -86,6 +86,7 @@ def fetch_available_episodes():
                     'keyword': anime['keyword'],
                     'translation_team': anime['translation_team'],
                     'ep': i,
+                    'folder': anime['folder']
                 })
     return avail_episodes
 
@@ -102,7 +103,11 @@ def update_anime_info(name, new):
     db = opendb()
     anime = tinydb.Query()
     info = db.get(anime.name == name)
-    print('\nUpdating {}:'.format(name))
+    try:
+        print('\nUpdating {}:'.format(name))
+    except UnicodeEncodeError:
+        print('\nUpdating {}:'.format(name.encode('gbk', 'ignore')))
+        print('Unicode Encode Error raised')
     for key in new:
         if key.startswith('new_'):
             new_key = key[4:]

@@ -34,7 +34,8 @@ class DatabaseTests(unittest.TestCase):
             'start_date': date.today() + timedelta(days=1),
             'dled_ep': 0,
             'total_ep': 12,
-            'offset': 0
+            'offset': 0,
+            'folder': 'test bangumi 2'
         }, {
             'name': 'test bangumi 3',
             'keyword': 'test bangumi 3',
@@ -42,7 +43,8 @@ class DatabaseTests(unittest.TestCase):
             'start_date': date.today() - timedelta(days=49),
             'dled_ep': 6,
             'total_ep': 13,
-            'offset': 0
+            'offset': 0,
+            'folder': 'test bangumi 3'
         }
         ]
         self.db.insert_multiple(anime_dict)
@@ -52,12 +54,14 @@ class DatabaseTests(unittest.TestCase):
             'name': 'test bangumi 3',
             'keyword': 'test bangumi 3',
             'translation_team': ['sumisora'],
-            'ep': 7
+            'ep': 7,
+            'folder': 'test bangumi 3'
         }, {
             'name': 'test bangumi 3',
             'keyword': 'test bangumi 3',
             'translation_team': ['sumisora'],
-            'ep': 8
+            'ep': 8,
+            'folder': 'test bangumi 3'
         }], avail_eps)
 
     def test_fetch_available_episodes_offset_cond(self):
@@ -71,7 +75,8 @@ class DatabaseTests(unittest.TestCase):
             'start_date': date.today() - timedelta(days=49),
             'dled_ep': 6,
             'total_ep': 13,
-            'offset': 1
+            'offset': 1,
+            'folder': 'test bangumi 3'
         }]
         self.db.insert_multiple(anime_dict)
         self.db.close()
@@ -80,7 +85,8 @@ class DatabaseTests(unittest.TestCase):
             'name': 'test bangumi 3',
             'keyword': 'test bangumi 3',
             'translation_team': ['sumisora'],
-            'ep': 7
+            'ep': 7,
+            'folder': 'test bangumi 3'
         }], avail_eps)
 
     def test_update_anime_info_normal_cond(self):

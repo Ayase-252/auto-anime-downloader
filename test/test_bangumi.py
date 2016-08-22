@@ -20,7 +20,8 @@ class BangumiTestClass(unittest.TestCase):
             'translation_team': ['sumisora', 'emd'],
             'total_ep': 11,
             'dled_ep': 0,
-            'offset': 0
+            'offset': 0,
+            'folder': 'Ano hi mita hana no namae wo bokutachi wa mada shiranai.'
         })
 
     def test_parsed_json_to_dict_ch(self):
@@ -36,7 +37,8 @@ class BangumiTestClass(unittest.TestCase):
             'translation_team': ['测试字幕组'],
             'total_ep': 12,
             'dled_ep': 0,
-            'offset': 0
+            'offset': 0,
+            'folder': '少女与战车'
         })
         f.close()
 
@@ -53,38 +55,10 @@ class BangumiTestClass(unittest.TestCase):
             'translation_team': [],
             'total_ep': 12,
             'dled_ep': 0,
-            'offset': 0
+            'offset': 0,
+            'folder': 'ふらいんうぃち',
         })
         f.close()
-
-    def test_read_bangumi_from_file(self):
-        read_list = bangumi.read_bangumi_from_file(r'test/test-input.json')
-        self.assertEqual(read_list, [{
-            'name': 'Ano hi mita hana no namae wo bokutachi wa mada shiranai.',
-            'keyword': 'Ano hi mita hana no namae wo bokutachi wa mada shiranai.',
-            'start_date': date(2011, 4, 14),
-            'translation_team': ['sumisora', 'emd'],
-            'total_ep': 11,
-            'dled_ep': 0,
-            'offset': 0
-        }, {
-            'name': 'ふらいんうぃち',
-            'keyword': 'ふらいんうぃち',
-            'start_date': date(2016, 4, 9),
-            'translation_team': [],
-            'total_ep': 12,
-            'dled_ep': 0,
-            'offset': 0
-        }, {
-            'name': '少女与战车',
-            'keyword': '少女与战车',
-            'start_date': date(2012, 10, 8),
-            'translation_team': [],
-            'total_ep': 99,
-            'dled_ep': 0,
-            'offset': 0
-        }
-        ])
 
 
 class ParsedJSONToNewDictTests(unittest.TestCase):
@@ -98,7 +72,7 @@ class ParsedJSONToNewDictTests(unittest.TestCase):
             'new_dled_ep': '20',
             'new_start_date': '2016-05-05',
             'new_keyword': 'test',
-            'new_offset': '2'
+            'new_offset': '2',
         }
         converted_dict = bangumi.parsed_json_to_new_dict(new_dict)
         self.assertEqual({

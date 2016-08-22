@@ -8,7 +8,7 @@ from hanziconv import HanziConv
 import net
 
 
-def get_download_url(name, ep, keyword, translation_team):
+def get_download_url(name, ep, keyword, translation_team, **dict):
     """
     Search download url in dmhy.org
     """

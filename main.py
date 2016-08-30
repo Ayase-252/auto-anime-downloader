@@ -25,6 +25,8 @@ def main():
     scrapers = scraper.import_scrapers()
     print('Caculating available episodes')
     avail_episode = database.fetch_available_episodes()
+    success_episodes = []
+    failed_episodes = []
     if len(avail_episode) == 0:
         print('No episode is available at present')
         return
@@ -33,6 +35,7 @@ def main():
         print('{} of {}'.format(ep['ep'], ep['name']))
     print('Download starts:')
     for ep in avail_episode:
+        print('=' * 40)
         print('Ep.{} of {} is processing'.format(ep['ep'], ep['name']))
         for __scraper in scrapers:
             try:
@@ -48,12 +51,26 @@ def main():
                     utorrent.add_torrent(path, ep['folder'])
                     print('Import completed successfully.')
                 database.set_downloaded_episode(ep['name'], ep['ep'])
+                print('=' * 40)
+                success_episodes.append(ep)
                 break
             except FileNotFoundError:
                 print('Scraper cannot find the file')
+            except Exception as ex:
+                print('Exception raised:' + ex)
             # If last scraper is used
             if __scraper is scrapers[-1]:
                 print('File cannot be found in all scraper. Try next time.')
+                failed_episodes.append(ep)
+                print('=' * 40)
+
+    print('Summary:')
+    print('Success:')
+    for ep in success_episodes:
+        print('ep {} of {}'.format(ep['ep'], ep['name']))
+    print('Failed:')
+    for ep in failed_episodes:
+        print('ep {} of {}'.format(ep['ep'], ep['name']))
 
 
 def update(file_path):

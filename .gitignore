@@ -15,3 +15,4 @@ torrents/*
 
 # Coverage report
 coverage_report/
+.coverage

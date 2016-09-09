@@ -1,5 +1,6 @@
 """Manage CRUD operations on database."""
 import tinydb
+from tinydb import Query
 from tinydb.storages import JSONStorage
 from tinydb_serialization import SerializationMiddleware
 
@@ -41,7 +42,7 @@ def save(table, instance):
     """
     db = _opendb()
     dbtable = db.table(table)
-    dbtable.insert(instance.toDict())
+    dbtable.insert(instance.to_dict())
     db.close()
 
 
@@ -65,7 +66,7 @@ def query(table, instance=None):
         db.close()
         return result
     else:
-        origin = instance.toDict()
+        origin = instance.to_dict()
         query_condition = {key: origin[key]
                            for key in origin if origin[key] != ''}
 
@@ -92,7 +93,15 @@ def update(table, instance, new_instance):
         instance: Instance of model you want to update.
         new_instance: New instance of model.
     """
-    pass
+    db = _opendb()
+    dbtable = db.table(table)
+
+    old_instance = instance.to_dict()
+    Element = Query()
+    element = dbtable.get(Element[instance.primary_key]
+                          == old_instance[instance.primary_key])
+    dbtable.update(new_instance.to_dict(), eids=[element.eid])
+    db.close()
 
 
 def remove(table, instance):
@@ -102,4 +111,11 @@ def remove(table, instance):
         table: Table name.
         instance: Instance of model you want to remove.
     """
-    pass
+    db = _opendb()
+    dbtable = db.table(table)
+
+    old_instance = instance.to_dict()
+    Element = Query()
+    element = dbtable.remove(Element[instance.primary_key]
+                             == old_instance[instance.primary_key])
+    db.close()

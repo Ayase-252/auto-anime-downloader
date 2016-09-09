@@ -7,16 +7,21 @@ import database_new as database
 
 
 class TestModel:
+    _primary_key = 'attr_1'
 
     def __init__(self, attr_1='', attr_2=''):
         self.attr_1 = attr_1
         self.attr_2 = attr_2
 
-    def toDict(self):
+    def to_dict(self):
         return {
             'attr_1': self.attr_1,
             'attr_2': self.attr_2
         }
+
+    @property
+    def primary_key(cls):
+        return cls._primary_key
 
 
 class DatabaseNewTests(unittest.TestCase):

@@ -7,9 +7,9 @@ import json
 
 import database
 import bangumi
-import downloader
 import configure
 import scraper
+import net
 if configure.ENABLE_AUTO_DOWNLOAD:
     import utorrent
 
@@ -40,9 +40,9 @@ def main():
         for __scraper in scrapers:
             try:
                 url = __scraper.get_download_url(**ep)
-                path = downloader.download(url=url,
-                                           save_path=configure.TORRENT_SAVE_PATH,
-                                           **ep)
+                path = net.download_torrent(url=url,
+                                            save_path=configure.TORRENT_SAVE_PATH,
+                                            **ep)
                 if configure.ENABLE_AUTO_DOWNLOAD:
                     if not utorrent.is_token_initialized():
                         print('Refreshing token')

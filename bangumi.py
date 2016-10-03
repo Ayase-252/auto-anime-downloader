@@ -35,7 +35,7 @@ def parsed_json_to_dict(parsed):
         new_bangumi['keyword'] = new_bangumi['name']
     new_bangumi['folder'] = parsed['folder'] if 'folder' in parsed and parsed[
         'folder'] is not '' else new_bangumi['name']
-    new_bangumi['offset'] = parsed['offset'] if 'offset' in parsed else 0
+    new_bangumi['offset'] = int(parsed['offset']) if 'offset' in parsed else 0
     return new_bangumi
 
 

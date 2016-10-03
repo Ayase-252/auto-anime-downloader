@@ -16,7 +16,7 @@ class DataModel:
         Returns:
             Primary key of the model.
 
-        Raisea:
+        Raises:
             ArributeError: If _primary_key is not set, namely, _primary_key is
                 still '', AttributeError will be raised.
         """

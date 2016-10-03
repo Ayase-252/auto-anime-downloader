@@ -1,4 +1,4 @@
-"""Manage CRUD operations on database."""
+"""Perform CRUD operations on database."""
 import tinydb
 from tinydb import Query
 from tinydb.storages import JSONStorage
@@ -26,96 +26,107 @@ def _opendb():
     """Open TinyDB database.
 
     Returns:
-        Instance of TinyDB
+        Element of TinyDB
     """
     serialization = SerializationMiddleware()
     serialization.register_serializer(DateSerializer(), 'Date Serializer')
     return tinydb.TinyDB(DATABASE, storage=serialization)
 
 
-def save(table, instance):
-    """Save instance in table.
+def save(table, element):
+    """Save element in table.
 
     Args:
         table: Table name.
-        instance: Instance of model. Model should implement toDict method.
+        element: Element of model. Model should implement toDict method.
     """
     db = _opendb()
     dbtable = db.table(table)
-    dbtable.insert(instance.to_dict())
+    dbtable.insert(element.to_dict())
     db.close()
 
 
-def query(table, instance=None):
-    """Retrieve instance(s) from table.
+def query(table, element=None):
+    """Retrieve element(s) from table.
 
     Args:
         table: Table name.
-        instance: Instance of model. Used as query condition.
+        element: Element of model. Used as query condition.
 
 
     Returns:
-        Dictionary of retrieved instance if instance is in this table. None if
-        instance cannot be found in the table. List of all record in the table
-        in dictionary if instance is None.
+        Dictionary of retrieved element if element is in this table. None if
+        element cannot be found in the table.
     """
     db = _opendb()
     dbtable = db.table(table)
-    if instance is None:
+    if element is None:
         result = dbtable.all()
         db.close()
         return result
     else:
-        origin = instance.to_dict()
+        origin = element.to_dict()
         query_condition = {key: origin[key]
                            for key in origin if origin[key] != ''}
 
         #  Query on TinyDB doesn't support a dictionary as condition.
         #  I have to implement one.
-        instances = dbtable.all()
+        elements = dbtable.all()
         db.close()
 
-        def is_matched(instance):
+        def is_matched(element):
             nonlocal query_condition
             for key in query_condition:
-                if instance[key] != query_condition[key]:
+                if element[key] != query_condition[key]:
                     return False
             return True
-        result = list(filter(is_matched, instances))[0]
+        result = list(filter(is_matched, elements))[0]
         return result
 
 
-def update(table, instance, new_instance):
-    """Update instance from table.
+def queryAll(table):
+    """Get all elements from table.
 
     Args:
         table: Table name.
-        instance: Instance of model you want to update.
-        new_instance: New instance of model.
+
+    Returns:
+        List of all elements of table.
+    """
+    pass
+
+
+def update(table, element, new_element):
+    """Update element from table.
+
+    Args:
+        table: Table name.
+        element: Element of model you want to update.
+        new_element: New element of model.
     """
     db = _opendb()
     dbtable = db.table(table)
 
-    old_instance = instance.to_dict()
+    old_element = element.to_dict()
     Element = Query()
-    element = dbtable.get(Element[instance.primary_key]
-                          == old_instance[instance.primary_key])
-    dbtable.update(new_instance.to_dict(), eids=[element.eid])
+    element = dbtable.get(Element[element.primary_key]
+                          == old_element[element.primary_key])
+    dbtable.update(new_element.to_dict(), eids=[element.eid])
     db.close()
 
 
-def remove(table, instance):
-    """Remove instance from table.
+def remove(table, element):
+    """Remove element from table.
 
     Args:
         table: Table name.
-        instance: Instance of model you want to remove.
+        element: Element of model you want to remove.
     """
     db = _opendb()
     dbtable = db.table(table)
 
-    old_instance = instance.to_dict()
+    old_element = element.to_dict()
     Element = Query()
-    element = dbtable.remove(Element[instance.primary_key]
-                             == old_instance[instance.primary_key])
+    element = dbtable.remove(Element[element.primary_key]
+                             == old_element[element.primary_key])
     db.close()

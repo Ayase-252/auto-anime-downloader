@@ -12,3 +12,6 @@ test.py
 real_static.json
 bangumi.db
 torrents/*
+
+coverage_remport
+.coverage

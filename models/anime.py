@@ -1,6 +1,6 @@
 """Anime model."""
 
-from datetime import date
+from datetime import date, datetime
 
 import database_new as database
 from .datamodel import DataModel
@@ -13,53 +13,56 @@ class Anime(DataModel):
         name: Name of anime(Required).
         start_day: Day when anime premires(Required).
         total_episode: Total episodes.
-        offset: Episodes offset.
-        downloaded_episode: Episode which have been downloaded.
-        translation_team: Translation team which you are favor of
-
-        keyword: Keyword to search. Use directory so scraper can be set
-            individually.
-
-        folder: Subfolder name of download destination, if you enable auto
-            download episode function.
+        downloaded_episodes: Episode which have been downloaded.
     """
 
     _primary_key = 'name'
 
-    def __init__(self, name, start_day=date.today(), total_ep=99,
-                 offset=0, downloaded_episode=[], translation_team=[],
-                 keyword={}, folder=''):
+    def __init__(self, name, start_day, total_episode=99,
+                 downloaded_episodes=None):
         """Initial an anime instance.
 
         Args refers to class docstring.
         """
         self.name = name
         self.start_day = start_day
-        self.total_ep = total_ep
-        self.offset = offset
-        self.downloaded_episode = downloaded_episode
-        self.translation_team = translation_team
-        self.keyword = keyword
-        self.folder = folder
+        self.total_episode = total_episode
+        if downloaded_episodes is None:
+            self.downloaded_episodes = []
+        else:
+            self.downloaded_episodes = downloaded_episodes
 
-    def to_dict(self):
-        """Return dictionary resentation of instance."""
-        pass
-
-    def save(self):
-        """Save instance in database.
-
-        Create an element in database if instance does not exist in database,
-        or update respective element if instance has existed in database.
+    def add_downloaded_episode(self, downloaded_episode):
+        """Add downloaded episode into record.
         """
-        pass
+        self.downloaded_episodes.append(downloaded_episode)
 
-    def remove(self):
-        """Remove instance from database."""
-        pass
+    def get_downloaded_episodes(self):
+        """Return a list of downloaded episodes
+        """
+        return self.downloaded_episodes
 
-    def _update(self):
-        pass
+    def get_avaliable_episodes(self, current_date):
+        """Return a list of avaliable episodes that have not been downloaded.
+        """
+        airing_episode = self._calculate_latest_episode(current_date)
+        avaliable_episode = []
+        for i in range(1, airing_episode):
+            if i not in self.downloaded_episodes:
+                avaliable_episode.append(i)
+        return avaliable_episode
 
-    def _create(self):
-        pass
+    def _calculate_latest_episode(self, current_date):
+        """Calculates latest episode which is on airing.
+        """
+        current_date = _convert_datestring(current_date)
+        start_date = _convert_datestring(self.start_day)
+        return min((current_date - start_date).days // 7 + 1,
+                   self.total_episode + 1)
+
+
+def _convert_datestring(datestring):
+    """Convert string in format of '%Y-%m-%d' (e.g 2016-08-03) to a
+    date object
+    """
+    return datetime.strptime(datestring, '%Y-%m-%d').date()

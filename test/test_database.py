@@ -64,6 +64,37 @@ class DatabaseTests(unittest.TestCase):
             'folder': 'test bangumi 3'
         }], avail_eps)
 
+    def test_fetch_available_episodes_finished_anime(self):
+        """
+        Test function in situation where only one is available
+        """
+        anime_dict = [{
+            'name': 'finished anime',
+            'keyword': 'test bangumi 2',
+            'translation_team': ['sumisora'],
+            'start_date': date.today() - timedelta(days=200),
+            'dled_ep': 0,
+            'total_ep': 2,
+            'offset': 0,
+            'folder': 'test bangumi 2'
+        }]
+        self.db.insert_multiple(anime_dict)
+        self.db.close()
+        avail_eps = database.fetch_available_episodes()
+        self.assertEqual([{
+            'name': 'finished anime',
+            'keyword': 'test bangumi 2',
+            'translation_team': ['sumisora'],
+            'ep': 1,
+            'folder': 'test bangumi 2'
+        }, {
+            'name': 'finished anime',
+            'keyword': 'test bangumi 2',
+            'translation_team': ['sumisora'],
+            'ep': 2,
+            'folder': 'test bangumi 2'
+        }], avail_eps)
+
     def test_fetch_available_episodes_offset_cond(self):
         """
         Test function if an offset anime is presented

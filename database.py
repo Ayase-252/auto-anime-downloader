@@ -76,6 +76,8 @@ def fetch_available_episodes():
         time_interval_days = time_interval.total_seconds() \
             / timedelta(days=1).total_seconds()
         episode_now = int(ceil(time_interval_days / 7)) - anime['offset']
+        episode_now = anime['total_ep'] if episode_now > anime['total_ep'] \
+                      else episode_now
         print('days between now and start day:{0}'.format(time_interval_days))
         print('episode available now:{}'.format(episode_now))
         print('downloaded:{}\n\n'.format(anime['dled_ep']))

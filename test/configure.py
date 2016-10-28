@@ -1,0 +1,1 @@
+CONNECT_TO_INTERNET = True

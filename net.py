@@ -117,3 +117,19 @@ def download_torrent(url, name, ep,
             'Download is ternimated due to following exception:\n{}'
             .format(ex))
         raise ex    # Transmit exception to upper layer
+
+def get(url, params=None):
+    """Request resource on url by GET method
+
+    returns:
+    Text if request succeeded, None if request failed.
+    """
+    headers = {
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKi'
+        't/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36'
+    }
+    result = requests.get(url, params=params, headers=headers)
+    if result.status_code == 200:
+        return result.text
+    else:
+        return None
